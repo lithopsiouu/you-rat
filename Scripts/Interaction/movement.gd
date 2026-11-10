@@ -5,7 +5,7 @@ class_name Movement extends Component
 var move_dir: Vector3
 var move_vel: Vector3 = Vector3.ZERO
 @export var input: PlayerInput
-@export var speed: float = 3.0
+@export var speed: float = 0.018
 @export var mesh: MeshInstance3D
 
 func _ready() -> void:
