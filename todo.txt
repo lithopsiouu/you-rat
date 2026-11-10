@@ -1,4 +1,4 @@
-A puzzle game about rats stopping the end of the world.
+A puzzle game about rats preventing the end of the world.
 Scientists discover the world-ending zombie virus does not affect rats. they
 begin conducting mass experiments on them using puzzles staged as real-life
 homes and scenarios in an effort to train the rats to deliver antidotes
