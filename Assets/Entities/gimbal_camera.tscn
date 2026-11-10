@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyg20dvv5m0qi"]
+
+[ext_resource type="Script" uid="uid://ct3vj3jyd6a5s" path="res://Scripts/gimbal_camera.gd" id="1_gf4iu"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_gf4iu"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 4.0
+dof_blur_far_transition = 4.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 3.0
+dof_blur_near_transition = 4.0
+dof_blur_amount = 0.2
+
+[node name="GimbalCamera" type="Node3D"]
+script = ExtResource("1_gf4iu")
+
+[node name="InnerGimbal" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="InnerGimbal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.8)
+attributes = SubResource("CameraAttributesPractical_gf4iu")
+current = true
+fov = 32.0

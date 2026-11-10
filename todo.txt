@@ -1,0 +1,21 @@
+A puzzle game about rats stopping the end of the world.
+Scientists discover the world-ending zombie virus does not affect rats. they
+begin conducting mass experiments on them using puzzles staged as real-life
+homes and scenarios in an effort to train the rats to deliver antidotes
+effectively. 
+The only problem is that the world's scientists had nearly experimented the
+mouse population to extinction, so the United Recovery Front (URF) appointed
+two rats to the last remaining continents. But there werent enough pairs to go
+around. The player's continent only gets one mouse, and a slew of tests
+to solve before humanity is entirely engulfed by rot.
+
+1. [DONE] add script that damp tracks camera to a target
+2. [DONE] script that magnetizes a target to ground within a certain range, otherwise allowing gravity
+3. statemachine for player, define functions and allow use for other entities
+4. [DONE] add player inputs reader to use on statemachine
+5. turn player into rigidbody and add physical movement component
+6. add camera zoom
+7. add interaction class: toggle, cooldown, self-trigger, interact time (long press), 
+	toggle requirements (check for bool, int, Variant)
+8. add entity-specific interactions: door, button, lock, cutscene, area trigger
+9. add spring platform (start point, end point, arc, cooldown)
