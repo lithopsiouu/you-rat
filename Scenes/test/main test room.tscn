@@ -113,4 +113,5 @@ metadata/_custom_type_script = "uid://csbl7nb0exx56"
 
 [node name="GimbalCamera" parent="Player" node_paths=PackedStringArray("player_input") instance=ExtResource("7_of0ke")]
 player_input = NodePath("../Components/PlayerInput")
-rotation_speed = 0.028
+rotation_speed_y = 0.02
+rotation_speed_x = 0.028

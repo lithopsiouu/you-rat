@@ -71,6 +71,10 @@ rotate_cam_down={
 3d_physics/layer_1="Generic"
 3d_physics/layer_2="Ground"
 3d_physics/layer_5="Player"
+3d_physics/layer_9="Interactable"
+3d_physics/layer_10="Interactor"
+3d_physics/layer_13="Hitbox"
+3d_physics/layer_14="Hurtbox"
 
 [rendering]
 
