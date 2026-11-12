@@ -1,15 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://d3h6vl8tqn2ao"]
+[gd_scene load_steps=12 format=3 uid="uid://d3h6vl8tqn2ao"]
 
 [ext_resource type="Material" uid="uid://bclljgmw3n7ur" path="res://Assets/Materials/tile_concrete_white.tres" id="1_ggcjv"]
 [ext_resource type="Material" uid="uid://lln0i7y28edo" path="res://Assets/Materials/tile_dark_gray.tres" id="2_x54xf"]
-[ext_resource type="Material" uid="uid://dero2i2k7x36v" path="res://Assets/Materials/player_material.tres" id="2_xornj"]
-[ext_resource type="Script" uid="uid://pi3os434h843" path="res://Scripts/stick_to_ground.gd" id="3_7of0a"]
-[ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_xornj"]
-[ext_resource type="Script" uid="uid://csbl7nb0exx56" path="res://Scripts/Interaction/movement.gd" id="5_yymxo"]
-[ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="7_of0ke"]
-[ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="8_njocx"]
+[ext_resource type="PackedScene" uid="uid://clyss7ccjkuw" path="res://Assets/Entities/player.tscn" id="3_x54xf"]
 [ext_resource type="Material" uid="uid://brx2jluqhii8i" path="res://Assets/Materials/interaction.tres" id="9_t768u"]
 [ext_resource type="Script" uid="uid://ddxbnuhq2je6l" path="res://Scripts/Interaction/interactable.gd" id="10_chm6s"]
+[ext_resource type="Texture2D" uid="uid://bcsf3aibkd3qp" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0007_interaction-copy-2.png" id="11_chm6s"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xornj"]
 sky_top_color = Color(0.356145, 0.480319, 0.684518, 1)
@@ -26,19 +22,6 @@ background_mode = 2
 sky = SubResource("Sky_7of0a")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="PrismMesh" id="PrismMesh_yymxo"]
-material = ExtResource("2_xornj")
-left_to_right = 0.2
-size = Vector3(0.3, 0.2, 0.2)
-
-[sub_resource type="SphereMesh" id="SphereMesh_x54xf"]
-radius = 0.05
-height = 0.1
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6pr0x"]
-height = 0.25
-radius = 0.4
 
 [sub_resource type="TorusMesh" id="TorusMesh_qqxum"]
 material = ExtResource("9_t768u")
@@ -94,54 +77,8 @@ light_color = Color(1, 1, 0.921569, 1)
 light_energy = 0.9
 shadow_enabled = true
 
-[node name="Player" type="Node3D" parent="."]
+[node name="Player" parent="." instance=ExtResource("3_x54xf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0692671, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-mesh = SubResource("PrismMesh_yymxo")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.096052, -0.0432466, 0)
-mesh = SubResource("SphereMesh_x54xf")
-
-[node name="StickToGround" type="RayCast3D" parent="Player" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
-target_position = Vector3(0, -0.4, 0)
-collision_mask = 3
-script = ExtResource("3_7of0a")
-target = NodePath("..")
-stick_speed = 15.0
-use_offset = false
-metadata/_custom_type_script = "uid://pi3os434h843"
-
-[node name="Components" type="Node" parent="Player"]
-
-[node name="PlayerInput" type="Node" parent="Player/Components"]
-script = ExtResource("3_xornj")
-metadata/_custom_type_script = "uid://disy7vfpou6kx"
-
-[node name="Movement" type="Node" parent="Player/Components" node_paths=PackedStringArray("input", "mesh", "target")]
-script = ExtResource("5_yymxo")
-input = NodePath("../PlayerInput")
-speed = 0.05
-mesh = NodePath("../../MeshInstance3D")
-target = NodePath("../..")
-metadata/_custom_type_script = "uid://csbl7nb0exx56"
-
-[node name="GimbalCamera" parent="Player" node_paths=PackedStringArray("player_input") instance=ExtResource("7_of0ke")]
-player_input = NodePath("../Components/PlayerInput")
-rotation_speed_y = 0.02
-rotation_speed_x = 0.028
-
-[node name="Interactor" type="Area3D" parent="Player" node_paths=PackedStringArray("player_input")]
-script = ExtResource("8_njocx")
-player_input = NodePath("../Components/PlayerInput")
-metadata/_custom_type_script = "uid://cotfsu52ght42"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Interactor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.125, 0)
-shape = SubResource("CylinderShape3D_6pr0x")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.125, -1)
@@ -149,7 +86,17 @@ mesh = SubResource("TorusMesh_qqxum")
 
 [node name="Interactable" type="Area3D" parent="MeshInstance3D"]
 script = ExtResource("10_chm6s")
+interact_time = 0.5
 metadata/_custom_type_script = "uid://ddxbnuhq2je6l"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Interactable"]
 shape = SubResource("CylinderShape3D_sckfr")
+
+[node name="Sprite3D" type="Sprite3D" parent="MeshInstance3D"]
+layers = 524288
+pixel_size = 0.0005
+billboard = 1
+double_sided = false
+no_depth_test = true
+fixed_size = true
+texture = ExtResource("11_chm6s")

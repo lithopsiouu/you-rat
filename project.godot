@@ -15,6 +15,14 @@ run/main_scene="uid://d3h6vl8tqn2ao"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+InteractionPrompt="*res://Scenes/Autoloaded/interaction_prompt.tscn"
+
+[global_group]
+
+Player="Used by the Player Node ONLY"
+
 [input]
 
 move_forward={
@@ -69,6 +77,7 @@ rotate_cam_down={
 3d_render/layer_1="Layer 1"
 3d_render/layer_2="Layer 2"
 3d_render/layer_6="Layer 6"
+3d_render/layer_20="Hidden"
 3d_physics/layer_1="Generic"
 3d_physics/layer_2="Ground"
 3d_physics/layer_5="Player"

@@ -19,4 +19,4 @@ to solve before humanity is entirely engulfed by rot.
 	toggle requirements (check for bool, int, Variant)
 8. add entity-specific interactions: door, button, lock, cutscene, area trigger
 9. add spring platform (start point, end point, arc, cooldown)
-10. add interactable signal that emits when value changes
+10. [DONE] add interactable signal that emits when value changes

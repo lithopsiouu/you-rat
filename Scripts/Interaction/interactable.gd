@@ -5,7 +5,13 @@ class_name Interactable extends Area3D
 
 @export var activation_state: bool = false ## State of the [Interactable].
 var activated: bool ## State of the [Interactable].
+var last_activated: bool ## Last state of [param activated].
 var can_interact: bool = true ## Whether or not the [Interactable] can [method Interactable.activate].
+
+signal state_changed ## Signal that is emitted when the [param activated] state changes.
+signal interaction_began ## Emitted when [method Interactable._interact] is called.
+signal interaction_interrupted ## Emitted when any interaction requirement is not met, or a [b]sustained[/b] interaction is interrupted.
+signal interaction_completed ## Emitted when [method Interactable._activate] is called.
 
 @export_category("Settings")
 
@@ -31,6 +37,11 @@ func _ready() -> void:
 	collision_mask = 10
 	activated = activation_state
 	
+	state_changed.connect(_on_state_changed)
+	interaction_began.connect(_on_interaction_begin)
+	interaction_interrupted.connect(_on_interaciton_interrupted)
+	interaction_completed.connect(_on_interaciton_completed)
+	
 	if interact_time > 0.0: 
 		interact_timer = Timer.new()
 		interact_timer.wait_time = interact_time
@@ -54,14 +65,20 @@ func _on_area_entered(area: Area3D) -> void:
 	if area is Interactor:
 		area.interact.connect(_interact)
 
+
 func _on_area_exited(area: Area3D) -> void:
 	#print(area, "exited")
 	if area is Interactor:
 		area.interact.disconnect(_interact)
+		
+		if interact_timer != null:
+			if interact_timer.time_left > 0.0:
+				_stop_interaction()
 
 
 func _on_interact_timer_timeout() -> void:
 	_activate(true)
+
 
 func _on_cooldown_timer_timeout() -> void:
 	can_interact = true
@@ -73,33 +90,56 @@ func _on_cooldown_timer_timeout() -> void:
 	elif reset_on_cooldown:
 		_activate(activation_state, false)
 
-## Sets value of [param activated].
+
+## Sets value of [param activated].[br]Emits [signal interaction_completed] and [signal state_changed].
 func _activate(state: bool, cooldown: bool = true) -> void:
+	if !get_overlapping_areas().has(Interactor) == false:
+		_stop_interaction()
+		return
+	
+	interaction_completed.emit()
+	
+	last_activated = activated
+	
 	if one_time:
-		print(self, " state: ", state, " | last state: ", activated)
+		#print(self, " state: ", state, " | last state: ", activated)
 		activated = state
 		can_interact = false
 		cooldown = false
 	else:
-		print(self, " state: ", !activated, " | last state: ", activated)
+		#print(self, " state: ", !activated, " | last state: ", activated)
 		activated = !activated
 	
 	if cooldown_time > 0.0 and cooldown:
 		cooldown_timer.start()
 		can_interact = false
 	
+	state_changed.emit(activated)
+
 
 ## Performs checks before [method Interactable._activate].
 func _interact(value: bool) -> void:
+	
 	if can_interact == true:
-		if _check_requirements():
-			if interact_time > 0.0:
-				if value:
+		
+		if value: 
+			interaction_began.emit()
+			
+			if _check_requirements():
+				
+				if interact_time > 0.0:
 					interact_timer.start()
+					
 				else:
-					interact_timer.stop()
-			elif value:
-				_activate(!activated)
+					_activate(!activated)
+		else:
+			_stop_interaction()
+
+
+func _stop_interaction() -> void:
+	if interact_time > 0.0 and interact_timer.time_left > 0.0: 
+		interact_timer.stop()
+		interaction_interrupted.emit()
 
 ## Checks if [param required_interactions] matches [param required_state]. returns [code]true[/code] or [code]false[/code].
 func _check_requirements() -> bool:
@@ -114,3 +154,15 @@ func _check_requirements() -> bool:
 		passed = true
 	
 	return passed
+
+func _on_interaction_begin() -> void:
+	print("interaction began.")
+
+func _on_interaciton_interrupted() -> void:
+	print("interaction interrupted!")
+	
+func _on_interaciton_completed() -> void:
+	print("interaction finished.")
+	
+func _on_state_changed(_activated: bool) -> void:
+	print("\nstate changed to: ", activated, "\nlast state: ", last_activated)
