@@ -15,7 +15,8 @@ to solve before humanity is entirely engulfed by rot.
 4. [DONE] add player inputs reader to use on statemachine
 5. turn player into rigidbody and add physical movement component
 6. add camera zoom
-7. add interaction class: toggle, cooldown, self-trigger, interact time (long press), 
+7. [DONE] add interaction class: toggle, cooldown, self-trigger, interact time (long press), 
 	toggle requirements (check for bool, int, Variant)
 8. add entity-specific interactions: door, button, lock, cutscene, area trigger
 9. add spring platform (start point, end point, arc, cooldown)
+10. add interactable signal that emits when value changes

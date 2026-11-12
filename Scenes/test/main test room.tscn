@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3h6vl8tqn2ao"]
+[gd_scene load_steps=19 format=3 uid="uid://d3h6vl8tqn2ao"]
 
 [ext_resource type="Material" uid="uid://bclljgmw3n7ur" path="res://Assets/Materials/tile_concrete_white.tres" id="1_ggcjv"]
 [ext_resource type="Material" uid="uid://lln0i7y28edo" path="res://Assets/Materials/tile_dark_gray.tres" id="2_x54xf"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_xornj"]
 [ext_resource type="Script" uid="uid://csbl7nb0exx56" path="res://Scripts/Interaction/movement.gd" id="5_yymxo"]
 [ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="7_of0ke"]
+[ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="8_njocx"]
+[ext_resource type="Material" uid="uid://brx2jluqhii8i" path="res://Assets/Materials/interaction.tres" id="9_t768u"]
+[ext_resource type="Script" uid="uid://ddxbnuhq2je6l" path="res://Scripts/Interaction/interactable.gd" id="10_chm6s"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xornj"]
 sky_top_color = Color(0.356145, 0.480319, 0.684518, 1)
@@ -32,6 +35,21 @@ size = Vector3(0.3, 0.2, 0.2)
 [sub_resource type="SphereMesh" id="SphereMesh_x54xf"]
 radius = 0.05
 height = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6pr0x"]
+height = 0.25
+radius = 0.4
+
+[sub_resource type="TorusMesh" id="TorusMesh_qqxum"]
+material = ExtResource("9_t768u")
+inner_radius = 0.05
+outer_radius = 0.1
+rings = 12
+ring_segments = 6
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_sckfr"]
+height = 0.25
+radius = 0.25
 
 [node name="Node3D" type="Node3D"]
 
@@ -115,3 +133,23 @@ metadata/_custom_type_script = "uid://csbl7nb0exx56"
 player_input = NodePath("../Components/PlayerInput")
 rotation_speed_y = 0.02
 rotation_speed_x = 0.028
+
+[node name="Interactor" type="Area3D" parent="Player" node_paths=PackedStringArray("player_input")]
+script = ExtResource("8_njocx")
+player_input = NodePath("../Components/PlayerInput")
+metadata/_custom_type_script = "uid://cotfsu52ght42"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/Interactor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.125, 0)
+shape = SubResource("CylinderShape3D_6pr0x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.125, -1)
+mesh = SubResource("TorusMesh_qqxum")
+
+[node name="Interactable" type="Area3D" parent="MeshInstance3D"]
+script = ExtResource("10_chm6s")
+metadata/_custom_type_script = "uid://ddxbnuhq2je6l"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Interactable"]
+shape = SubResource("CylinderShape3D_sckfr")
