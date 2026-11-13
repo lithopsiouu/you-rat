@@ -19,6 +19,15 @@ config/icon="res://icon.svg"
 
 InteractionPrompt="*res://Scenes/Autoloaded/interaction_prompt.tscn"
 
+[file_customization]
+
+folder_colors={
+"res://Assets/Entities/": "red",
+"res://Assets/Materials/Textures/Dev/": "gray",
+"res://Scenes/": "blue",
+"res://Scripts/": "gray"
+}
+
 [global_group]
 
 Player="Used by the Player Node ONLY"

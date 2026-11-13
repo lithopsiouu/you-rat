@@ -77,9 +77,6 @@ light_color = Color(1, 1, 0.921569, 1)
 light_energy = 0.9
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("3_x54xf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0692671, 0)
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.125, -1)
 mesh = SubResource("TorusMesh_qqxum")
@@ -100,3 +97,6 @@ double_sided = false
 no_depth_test = true
 fixed_size = true
 texture = ExtResource("11_chm6s")
+
+[node name="Player" parent="." instance=ExtResource("3_x54xf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
