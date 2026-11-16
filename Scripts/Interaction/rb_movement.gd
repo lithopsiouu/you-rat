@@ -10,6 +10,10 @@ var rb: RigidBody3D = null
 @export var speed: float = 0.018
 @export var mesh: MeshInstance3D
 
+var current_speed
+var target_speed
+var acceleration_time
+
 func _ready() -> void:
 	_is_target_null(target)
 	_is_target_null(input)
@@ -27,17 +31,18 @@ func _physics_process(delta: float) -> void:
 	
 	update_move_vel()
 	var velocity_error = move_vel - rb.linear_velocity
-	var impulse = _pid.update(velocity_error, delta) * .1
-	move(impulse)
+	#var impulse = _pid.update(velocity_error, delta) * .1
+	move(move_vel)
+	print(rb.linear_velocity)
 	
 	if abs(move_dir.length()) > 0.0:
 	
-		#mesh.rotation.y = lerp_angle(mesh.rotation.y, atan2(-move_dir.z, move_dir.x), delta * 8)
-		pass
+		mesh.rotation.y = lerp_angle(mesh.rotation.y, atan2(-move_dir.z, move_dir.x), delta * 8)
+		#pass
 	
 	else:
-		#pass
-		rb.apply_central_impulse(Vector3(rb.linear_velocity.x, 0, rb.linear_velocity.z) * -1)
+		pass
+		#rb.apply_central_impulse(Vector3(rb.linear_velocity.x, 0, rb.linear_velocity.z) * -1)
 
 
 func set_move_dir(new_dir) -> void:
@@ -46,6 +51,7 @@ func set_move_dir(new_dir) -> void:
 	elif new_dir is Vector2:
 		move_dir.x = new_dir.x
 		move_dir.z = new_dir.y
+		move_dir.y = 0.05
 
 
 func update_move_vel() -> void:
@@ -53,6 +59,7 @@ func update_move_vel() -> void:
 
 
 func move(_vel: Vector3) -> void:
-	rb.apply_central_force(_vel)
+	#rb.linear_velocity = Vector3(0, rb.linear_velocity.y, 0)
+	rb.apply_central_impulse(_vel)
 	mesh.rotation.z = 0
 	mesh.rotation.x = 0

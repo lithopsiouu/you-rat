@@ -1,57 +1,86 @@
-[gd_scene load_steps=10 format=3 uid="uid://dejwv7qah2a0q"]
+[gd_scene load_steps=11 format=3 uid="uid://bpqpjy8fcgewn"]
 
 [ext_resource type="Material" uid="uid://dero2i2k7x36v" path="res://Assets/Materials/player_material.tres" id="1_jmjd3"]
 [ext_resource type="Script" uid="uid://bu1r20ywascsv" path="res://Scripts/Interaction/rb_movement.gd" id="1_strm8"]
 [ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_twv4y"]
 [ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="4_twv4y"]
 [ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="5_8h1a1"]
+[ext_resource type="Texture2D" uid="uid://b3sr0njonqdba" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0002_player-copy.png" id="7_vghrk"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h1a1"]
-friction = 0.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_b2tom"]
+radius = 0.05
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_ldwiu"]
-radius = 0.1
-
-[sub_resource type="SphereMesh" id="SphereMesh_brm1d"]
+[sub_resource type="PrismMesh" id="PrismMesh_yymxo"]
 material = ExtResource("1_jmjd3")
-radius = 0.1
-height = 0.2
+left_to_right = 0.2
+size = Vector3(0.3, 0.2, 0.2)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8h1a1"]
+[sub_resource type="SphereMesh" id="SphereMesh_x54xf"]
+radius = 0.05
 height = 0.1
-radius = 0.2
 
-[node name="Rigidbody_Player" type="RigidBody3D" node_paths=PackedStringArray("input", "mesh", "target") groups=["Player"]]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6pr0x"]
+height = 0.25
+radius = 0.4
+
+[node name="RigidBody3D" type="RigidBody3D" groups=["Player"]]
 collision_layer = 16
 collision_mask = 3
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
-physics_material_override = SubResource("PhysicsMaterial_8h1a1")
+can_sleep = false
 continuous_cd = true
-script = ExtResource("1_strm8")
-input = NodePath("PlayerInput")
-speed = 5.0
-mesh = NodePath("MeshInstance3D")
-target = NodePath(".")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_ldwiu")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+shape = SubResource("SphereShape3D_b2tom")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_brm1d")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("PrismMesh_yymxo")
+skeleton = NodePath("")
 
-[node name="PlayerInput" type="Node" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.096052, -0.0432466, 0)
+mesh = SubResource("SphereMesh_x54xf")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="PlayerInput" type="Node" parent="Components"]
 script = ExtResource("3_twv4y")
 metadata/_custom_type_script = "uid://disy7vfpou6kx"
 
+[node name="RigidBodyMovement" type="Node" parent="Components" node_paths=PackedStringArray("input", "mesh", "target")]
+script = ExtResource("1_strm8")
+input = NodePath("../PlayerInput")
+speed = 0.2
+mesh = NodePath("../../MeshInstance3D")
+target = NodePath("../..")
+metadata/_custom_type_script = "uid://bu1r20ywascsv"
+
+[node name="GimbalCamera" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("5_8h1a1")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+player_input = NodePath("../Components/PlayerInput")
+rotation_speed_y = 0.02
+rotation_speed_x = 0.028
+gimbal_max_x = -35.0
+gimbal_min_x = -20.0
+
 [node name="Interactor" type="Area3D" parent="." node_paths=PackedStringArray("player_input")]
 script = ExtResource("4_twv4y")
-player_input = NodePath("../PlayerInput")
+player_input = NodePath("../Components/PlayerInput")
 metadata/_custom_type_script = "uid://cotfsu52ght42"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
-shape = SubResource("CylinderShape3D_8h1a1")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.125, 0)
+shape = SubResource("CylinderShape3D_6pr0x")
 
-[node name="GimbalCamera" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("5_8h1a1")]
-player_input = NodePath("../PlayerInput")
+[node name="Sprite3D" type="Sprite3D" parent="."]
+layers = 524288
+pixel_size = 0.0005
+billboard = 1
+double_sided = false
+no_depth_test = true
+fixed_size = true
+texture = ExtResource("7_vghrk")
