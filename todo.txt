@@ -13,7 +13,7 @@ to solve before humanity is entirely engulfed by rot.
 2. [DONE] script that magnetizes a target to ground within a certain range, otherwise allowing gravity
 3. statemachine for player, define functions and allow use for other entities
 4. [DONE] add player inputs reader to use on statemachine
-5. turn player into rigidbody and add physical movement component
+5. [WORK] turn player into rigidbody and add physical movement component
 6. add camera zoom
 7. [DONE] add interaction class: toggle, cooldown, self-trigger, interact time (long press), 
 	toggle requirements (check for bool, int, Variant)

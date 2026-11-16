@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://dejwv7qah2a0q"]
+
+[ext_resource type="Material" uid="uid://dero2i2k7x36v" path="res://Assets/Materials/player_material.tres" id="1_jmjd3"]
+[ext_resource type="Script" uid="uid://bu1r20ywascsv" path="res://Scripts/Interaction/rb_movement.gd" id="1_strm8"]
+[ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_twv4y"]
+[ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="4_twv4y"]
+[ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="5_8h1a1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8h1a1"]
+friction = 0.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ldwiu"]
+radius = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_brm1d"]
+material = ExtResource("1_jmjd3")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8h1a1"]
+height = 0.1
+radius = 0.2
+
+[node name="Rigidbody_Player" type="RigidBody3D" node_paths=PackedStringArray("input", "mesh", "target") groups=["Player"]]
+collision_layer = 16
+collision_mask = 3
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_8h1a1")
+continuous_cd = true
+script = ExtResource("1_strm8")
+input = NodePath("PlayerInput")
+speed = 5.0
+mesh = NodePath("MeshInstance3D")
+target = NodePath(".")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ldwiu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_brm1d")
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("3_twv4y")
+metadata/_custom_type_script = "uid://disy7vfpou6kx"
+
+[node name="Interactor" type="Area3D" parent="." node_paths=PackedStringArray("player_input")]
+script = ExtResource("4_twv4y")
+player_input = NodePath("../PlayerInput")
+metadata/_custom_type_script = "uid://cotfsu52ght42"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
+shape = SubResource("CylinderShape3D_8h1a1")
+
+[node name="GimbalCamera" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("5_8h1a1")]
+player_input = NodePath("../PlayerInput")
