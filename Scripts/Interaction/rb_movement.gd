@@ -1,11 +1,11 @@
 class_name RigidBodyMovement extends Component
 
-## Allows movement of the [param target] of type [RigidBody3D]
+## Allows movement of the [param target] of type [CharacterBody3D]
 
 var _pid := Pid3D.new(1.0, 0.08, 1.0)
 var move_dir: Vector3
 var move_vel: Vector3 = Vector3.ZERO
-var rb: RigidBody3D = null
+var rb: CharacterBody3D = null
 @export var input: PlayerInput
 @export var speed: float = 0.018
 @export var mesh: MeshInstance3D
@@ -18,7 +18,7 @@ func _ready() -> void:
 	_is_target_null(target)
 	_is_target_null(input)
 	
-	if target is RigidBody3D: 
+	if target is CharacterBody3D: 
 		rb = target
 	else:
 		printerr(self, "No RigidBody3D to use!")
@@ -26,40 +26,39 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	set_move_dir(input.move_dir)
-	#mesh.look_at(target.position + Vector3(move_dir.z, 0, -move_dir.x))
+	move_dir_to_vec3(input.move_dir)
 	
 	update_move_vel()
-	var velocity_error = move_vel - rb.linear_velocity
-	#var impulse = _pid.update(velocity_error, delta) * .1
 	move(move_vel)
-	print(rb.linear_velocity)
 	
 	if abs(move_dir.length()) > 0.0:
 	
-		mesh.rotation.y = lerp_angle(mesh.rotation.y, atan2(-move_dir.z, move_dir.x), delta * 8)
-		#pass
+		mesh.rotation.y = get_rotation_from_dir(delta)
+		pass
 	
 	else:
 		pass
 		#rb.apply_central_impulse(Vector3(rb.linear_velocity.x, 0, rb.linear_velocity.z) * -1)
 
-
-func set_move_dir(new_dir) -> void:
+## Change [param new_dir] to [param move_dir] ([Vector2] to [Vector3]) on the [code]x[/code] and [code]z[/code] axes.
+func move_dir_to_vec3(new_dir) -> void:
 	if new_dir is Vector3:
 		move_dir = new_dir
 	elif new_dir is Vector2:
 		move_dir.x = new_dir.x
 		move_dir.z = new_dir.y
-		move_dir.y = 0.05
 
+## Return a rotation in radians.
+func get_rotation_from_dir(_delta: float) -> float:
+	return lerp_angle(mesh.rotation.y, atan2(-move_dir.z, move_dir.x), _delta * 8)
 
+## Update [param move_vel] by multiplying [param move_dir] by [param speed].
 func update_move_vel() -> void:
 	move_vel = move_dir * speed
 
-
+## Sets the [member CharacterBody3D.velocity] to [param _vel] and triggers [method CharacterBody3D.move_and_slide].
 func move(_vel: Vector3) -> void:
-	#rb.linear_velocity = Vector3(0, rb.linear_velocity.y, 0)
-	rb.apply_central_impulse(_vel)
-	mesh.rotation.z = 0
-	mesh.rotation.x = 0
+	rb.velocity = _vel + rb.get_gravity()
+	rb.move_and_slide()
+	#mesh.rotation.z = 0
+	#mesh.rotation.x = 0

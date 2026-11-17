@@ -1,11 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://bpqpjy8fcgewn"]
+[gd_scene load_steps=13 format=3 uid="uid://bpqpjy8fcgewn"]
 
 [ext_resource type="Material" uid="uid://dero2i2k7x36v" path="res://Assets/Materials/player_material.tres" id="1_jmjd3"]
 [ext_resource type="Script" uid="uid://bu1r20ywascsv" path="res://Scripts/Interaction/rb_movement.gd" id="1_strm8"]
 [ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_twv4y"]
 [ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="4_twv4y"]
 [ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="5_8h1a1"]
+[ext_resource type="Script" path="res://Scripts/Interaction/StateMachine/StateMachine.gd" id="7_51qsa"]
 [ext_resource type="Texture2D" uid="uid://b3sr0njonqdba" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0002_player-copy.png" id="7_vghrk"]
+[ext_resource type="Script" uid="uid://utge17tu8aum" path="res://Scripts/Interaction/StateMachine/Character/idle.gd" id="8_vghrk"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_b2tom"]
 radius = 0.05
@@ -23,14 +25,13 @@ height = 0.1
 height = 0.25
 radius = 0.4
 
-[node name="RigidBody3D" type="RigidBody3D" groups=["Player"]]
+[node name="CharacterBody3D" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 16
 collision_mask = 3
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
-can_sleep = false
-continuous_cd = true
+platform_floor_layers = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
@@ -54,7 +55,7 @@ metadata/_custom_type_script = "uid://disy7vfpou6kx"
 [node name="RigidBodyMovement" type="Node" parent="Components" node_paths=PackedStringArray("input", "mesh", "target")]
 script = ExtResource("1_strm8")
 input = NodePath("../PlayerInput")
-speed = 0.2
+speed = 1.0
 mesh = NodePath("../../MeshInstance3D")
 target = NodePath("../..")
 metadata/_custom_type_script = "uid://bu1r20ywascsv"
@@ -84,3 +85,11 @@ double_sided = false
 no_depth_test = true
 fixed_size = true
 texture = ExtResource("7_vghrk")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("7_51qsa")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("body")]
+script = ExtResource("8_vghrk")
+body = NodePath("../..")

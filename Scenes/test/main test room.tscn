@@ -99,4 +99,4 @@ fixed_size = true
 texture = ExtResource("11_chm6s")
 
 [node name="RigidBody3D" parent="." instance=ExtResource("7_njocx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.69371, 0.739244, -0.945048)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, 0.739244, -0.945048)
