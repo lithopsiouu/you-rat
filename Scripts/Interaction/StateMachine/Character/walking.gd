@@ -1,12 +1,13 @@
 class_name Walking extends State
 ## State for walking
 
+@export_subgroup("Connections")
 @export var body: CharacterBody3D ## Node to control.
 @export var input: PlayerInput ## Node that sends player input.
 @export var rotator: RotateToVelocity ## Node that rotates the [param body] to velocity.
 
 @export_subgroup("Walking Settings")
-@export var move_speed: float = 0.8 ## Speed at which the player moves.
+@export var move_speed: float = 0.8 ## Speed at which the body moves.
 
 func enter() -> void:
 	check_valid_node(body)
@@ -16,7 +17,10 @@ func physics_update(_delta: float) -> void:
 	var move_dir = input.move_dir
 	rotator.rotate(_delta)
 	
-	if abs(move_dir.length()) == 0.0:
+	if input.jumping_pressed:
+		state_machine.change_state("Jumping")
+		
+	elif abs(move_dir.length()) == 0.0:
 		state_machine.change_state("Idle")
 		
 	elif body.is_on_floor():

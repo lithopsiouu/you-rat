@@ -4,11 +4,13 @@
 [ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_twv4y"]
 [ext_resource type="Script" uid="uid://q3q2nmv7strx" path="res://Scripts/Utility/rotate_to_velocity.gd" id="3_vghrk"]
 [ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="4_twv4y"]
+[ext_resource type="Script" uid="uid://ck1w8k4pcu6ou" path="res://Scripts/Utility/coyote_time.gd" id="4_y5fkf"]
 [ext_resource type="Script" uid="uid://ba8rfquaevxua" path="res://Scripts/Interaction/StateMachine/StateMachine.gd" id="7_51qsa"]
 [ext_resource type="Texture2D" uid="uid://b3sr0njonqdba" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0002_player-copy.png" id="7_vghrk"]
 [ext_resource type="Script" uid="uid://utge17tu8aum" path="res://Scripts/Interaction/StateMachine/Character/idle.gd" id="8_vghrk"]
 [ext_resource type="Script" uid="uid://4au3baac81ma" path="res://Scripts/Interaction/StateMachine/Character/walking.gd" id="9_vghrk"]
 [ext_resource type="Script" uid="uid://01ga8bbfkunt" path="res://Scripts/Interaction/StateMachine/Character/falling.gd" id="10_1kggj"]
+[ext_resource type="Script" uid="uid://cggutx8t7paof" path="res://Scripts/Interaction/StateMachine/Character/jumping.gd" id="10_y5fkf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_b2tom"]
 radius = 0.05
@@ -32,6 +34,9 @@ collision_mask = 3
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+wall_min_slide_angle = 0.61086524
+floor_stop_on_slope = false
+floor_constant_speed = true
 platform_floor_layers = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=398310535]
@@ -57,6 +62,11 @@ metadata/_custom_type_script = "uid://disy7vfpou6kx"
 script = ExtResource("3_vghrk")
 target = NodePath("../..")
 metadata/_custom_type_script = "uid://q3q2nmv7strx"
+
+[node name="CoyoteTime" type="Node" parent="Components" unique_id=1339682714 node_paths=PackedStringArray("target")]
+script = ExtResource("4_y5fkf")
+target = NodePath("../..")
+metadata/_custom_type_script = "uid://ck1w8k4pcu6ou"
 
 [node name="Interactor" type="Area3D" parent="." unique_id=1258362062 node_paths=PackedStringArray("player_input")]
 script = ExtResource("4_twv4y")
@@ -90,11 +100,20 @@ script = ExtResource("9_vghrk")
 body = NodePath("../..")
 input = NodePath("../../Components/PlayerInput")
 rotator = NodePath("../../Components/RotateToVelocity")
+move_speed = 1.5
 metadata/_custom_type_script = "uid://cvpyonm16wyst"
 
-[node name="Falling" type="Node" parent="StateMachine" unique_id=868240921 node_paths=PackedStringArray("body", "input", "rotator")]
+[node name="Falling" type="Node" parent="StateMachine" unique_id=868240921 node_paths=PackedStringArray("body", "input", "rotator", "coyote")]
 script = ExtResource("10_1kggj")
 body = NodePath("../..")
 input = NodePath("../../Components/PlayerInput")
 rotator = NodePath("../../Components/RotateToVelocity")
+coyote = NodePath("../../Components/CoyoteTime")
 metadata/_custom_type_script = "uid://01ga8bbfkunt"
+
+[node name="Jumping" type="Node" parent="StateMachine" unique_id=1236269333 node_paths=PackedStringArray("body", "input", "rotator")]
+script = ExtResource("10_y5fkf")
+body = NodePath("../..")
+input = NodePath("../../Components/PlayerInput")
+rotator = NodePath("../../Components/RotateToVelocity")
+metadata/_custom_type_script = "uid://cggutx8t7paof"

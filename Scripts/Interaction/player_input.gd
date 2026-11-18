@@ -6,6 +6,7 @@ var rotate_cam: Vector2 = Vector2.ZERO
 signal interaction_down
 signal interaction_released
 signal jumping
+var jumping_pressed: bool = false
 @export_category("Settings")
 @export var move_relative_to_camera: bool = true
 @export var invert_cam_x: bool = true
@@ -31,8 +32,10 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("jump"):
 		jumping.emit(true)
+		jumping_pressed = true
 	elif Input.is_action_just_released("jump"):
 		jumping.emit(false)
+		jumping_pressed = false
 	
 	if Input.is_action_just_pressed("interact"):
 		interaction_down.emit(true)

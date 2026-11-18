@@ -20,8 +20,11 @@ func update(_delta: float) -> void:
 func physics_update(_delta: float) -> void:
 	pass
 
-## Checks if [param node] passed is valid and if not, disables the [State].
-func check_valid_node(node: Variant) -> void:
+## Checks if [param node] passed is valid and if not, disables the [State].[br]
+## If [param can_skip] is [code]true[/code], this will only print an [b]error[/b].
+func check_valid_node(node: Variant, can_skip: bool = false) -> void:
 	if node == null:
 		printerr(self, "| node not found!")
-		process_mode = Node.PROCESS_MODE_DISABLED
+		
+		if can_skip == false:
+			process_mode = Node.PROCESS_MODE_DISABLED

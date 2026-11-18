@@ -35,6 +35,12 @@ ring_segments = 6
 height = 0.25
 radius = 0.25
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_q54yq"]
+size = Vector3(0.2, 1.8000001, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_of0ke"]
+size = Vector3(0.2, 1.9, 2.8)
+
 [node name="Node3D" type="Node3D" unique_id=948944063]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1862582342]
@@ -151,3 +157,21 @@ rotation_speed_y = 0.03
 rotation_speed_x = 0.035
 gimbal_max_x = -35.0
 gimbal_min_x = -20.0
+
+[node name="ClimbArea" type="Area3D" parent="." unique_id=1955000311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6000001, 2.1000001, -3.5)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ClimbArea" unique_id=1012446527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89999986, 0)
+shape = SubResource("BoxShape3D_q54yq")
+debug_color = Color(1.353256, 0.90830946, 0, 0.78431374)
+
+[node name="ClimbArea2" type="Area3D" parent="." unique_id=1774568551]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6000001, 3.1000001, -3.5)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ClimbArea2" unique_id=536479988]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.049999714, 1)
+shape = SubResource("BoxShape3D_of0ke")
+debug_color = Color(1.353256, 0.90830946, 0, 0.78431374)
