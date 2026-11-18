@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://d3h6vl8tqn2ao"]
+[gd_scene format=3 uid="uid://d3h6vl8tqn2ao"]
 
 [ext_resource type="Material" uid="uid://bclljgmw3n7ur" path="res://Assets/Materials/tile_concrete_white.tres" id="1_ggcjv"]
 [ext_resource type="Material" uid="uid://lln0i7y28edo" path="res://Assets/Materials/tile_dark_gray.tres" id="2_x54xf"]
 [ext_resource type="PackedScene" uid="uid://bpqpjy8fcgewn" path="res://Assets/Entities/rigidbody_player.tscn" id="7_njocx"]
+[ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="7_of0ke"]
 [ext_resource type="Material" uid="uid://brx2jluqhii8i" path="res://Assets/Materials/interaction.tres" id="9_t768u"]
 [ext_resource type="Script" uid="uid://ddxbnuhq2je6l" path="res://Scripts/Interaction/interactable.gd" id="10_chm6s"]
 [ext_resource type="Texture2D" uid="uid://bcsf3aibkd3qp" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0007_interaction-copy-2.png" id="11_chm6s"]
@@ -34,9 +35,17 @@ ring_segments = 6
 height = 0.25
 radius = 0.25
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" unique_id=948944063]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1862582342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 0.125, -4)
+use_collision = true
+collision_layer = 2
+collision_mask = 17
+polygon = PackedVector2Array(0, 0, 0, 0.5, 2.3, 0)
+material = ExtResource("1_ggcjv")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=298356218]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 collision_layer = 2
@@ -44,7 +53,32 @@ collision_mask = 17
 size = Vector3(10, 1, 10)
 material = ExtResource("1_ggcjv")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+[node name="CSGBox3D5" type="CSGBox3D" parent="." unique_id=1192686818]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85, 2.1, -2.5)
+use_collision = true
+collision_layer = 4
+collision_mask = 17
+size = Vector3(0.2, 4, 3)
+material = ExtResource("1_ggcjv")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="." unique_id=1668072839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9999999, 3, -1)
+use_collision = true
+collision_layer = 2
+collision_mask = 17
+size = Vector3(1.5, 0.2, 3)
+material = ExtResource("2_x54xf")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="." unique_id=1184776612]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3499999, 0.375, -4.5)
+smoothing_angle = 180.0
+use_collision = true
+collision_layer = 2
+collision_mask = 17
+size = Vector3(0.7, 0.5, 1)
+material = ExtResource("1_ggcjv")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=179110736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.063, -0.5)
 use_collision = true
 collision_layer = 2
@@ -52,44 +86,52 @@ collision_mask = 17
 size = Vector3(4, 0.125, 9)
 material = ExtResource("2_x54xf")
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=132756998]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5027342, 0.063, -3.5)
+use_collision = true
+collision_layer = 2
+collision_mask = 17
+size = Vector3(5, 0.125, 3)
+material = ExtResource("2_x54xf")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=557429662]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 2, -2.25, 0.626, -2)
 use_collision = true
 collision_layer = 2
 collision_mask = 17
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1017040681]
 material = ExtResource("2_x54xf")
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D" unique_id=2050051473]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
 operation = 2
 radius = 1.0
 sides = 20
 material = ExtResource("1_ggcjv")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=868080741]
 environment = SubResource("Environment_yymxo")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=283775150]
 transform = Transform3D(-0.866025, -0.383022, 0.321394, 0, 0.642788, 0.766044, -0.5, 0.663414, -0.55667, 0, 0, 0)
 light_color = Color(1, 1, 0.921569, 1)
 light_energy = 0.9
 shadow_enabled = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1078502718]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.125, -1)
 mesh = SubResource("TorusMesh_qqxum")
 
-[node name="Interactable" type="Area3D" parent="MeshInstance3D"]
+[node name="Interactable" type="Area3D" parent="MeshInstance3D" unique_id=395787341]
 script = ExtResource("10_chm6s")
 interact_time = 0.5
 metadata/_custom_type_script = "uid://ddxbnuhq2je6l"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Interactable"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Interactable" unique_id=564333995]
 shape = SubResource("CylinderShape3D_sckfr")
 
-[node name="Sprite3D" type="Sprite3D" parent="MeshInstance3D"]
+[node name="Sprite3D" type="Sprite3D" parent="MeshInstance3D" unique_id=994475818]
 layers = 524288
 pixel_size = 0.0005
 billboard = 1
@@ -98,5 +140,14 @@ no_depth_test = true
 fixed_size = true
 texture = ExtResource("11_chm6s")
 
-[node name="RigidBody3D" parent="." instance=ExtResource("7_njocx")]
+[node name="RigidBody3D" parent="." unique_id=723126475 instance=ExtResource("7_njocx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, 0.739244, -0.945048)
+
+[node name="GimbalCamera2" parent="RigidBody3D" unique_id=681192686 node_paths=PackedStringArray("target") instance=ExtResource("7_of0ke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, 0.739244, -0.945048)
+top_level = true
+target = NodePath("..")
+rotation_speed_y = 0.03
+rotation_speed_x = 0.035
+gimbal_max_x = -35.0
+gimbal_min_x = -20.0

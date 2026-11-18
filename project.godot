@@ -98,6 +98,7 @@ jump={
 3d_render/layer_20="Hidden"
 3d_physics/layer_1="Generic"
 3d_physics/layer_2="Ground"
+3d_physics/layer_3="Wall"
 3d_physics/layer_5="Player"
 3d_physics/layer_9="Interactable"
 3d_physics/layer_10="Interactor"

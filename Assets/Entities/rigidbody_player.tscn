@@ -1,13 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpqpjy8fcgewn"]
+[gd_scene format=3 uid="uid://bpqpjy8fcgewn"]
 
 [ext_resource type="Material" uid="uid://dero2i2k7x36v" path="res://Assets/Materials/player_material.tres" id="1_jmjd3"]
-[ext_resource type="Script" uid="uid://bu1r20ywascsv" path="res://Scripts/Interaction/rb_movement.gd" id="1_strm8"]
 [ext_resource type="Script" uid="uid://disy7vfpou6kx" path="res://Scripts/Interaction/player_input.gd" id="3_twv4y"]
+[ext_resource type="Script" uid="uid://q3q2nmv7strx" path="res://Scripts/Utility/rotate_to_velocity.gd" id="3_vghrk"]
 [ext_resource type="Script" uid="uid://cotfsu52ght42" path="res://Scripts/Interaction/interactor.gd" id="4_twv4y"]
-[ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="5_8h1a1"]
-[ext_resource type="Script" path="res://Scripts/Interaction/StateMachine/StateMachine.gd" id="7_51qsa"]
+[ext_resource type="Script" uid="uid://ba8rfquaevxua" path="res://Scripts/Interaction/StateMachine/StateMachine.gd" id="7_51qsa"]
 [ext_resource type="Texture2D" uid="uid://b3sr0njonqdba" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0002_player-copy.png" id="7_vghrk"]
 [ext_resource type="Script" uid="uid://utge17tu8aum" path="res://Scripts/Interaction/StateMachine/Character/idle.gd" id="8_vghrk"]
+[ext_resource type="Script" uid="uid://4au3baac81ma" path="res://Scripts/Interaction/StateMachine/Character/walking.gd" id="9_vghrk"]
+[ext_resource type="Script" uid="uid://01ga8bbfkunt" path="res://Scripts/Interaction/StateMachine/Character/falling.gd" id="10_1kggj"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_b2tom"]
 radius = 0.05
@@ -25,7 +26,7 @@ height = 0.1
 height = 0.25
 radius = 0.4
 
-[node name="CharacterBody3D" type="CharacterBody3D" groups=["Player"]]
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=393314524 groups=["Player"]]
 collision_layer = 16
 collision_mask = 3
 axis_lock_angular_x = true
@@ -33,51 +34,40 @@ axis_lock_angular_y = true
 axis_lock_angular_z = true
 platform_floor_layers = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=398310535]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 shape = SubResource("SphereShape3D_b2tom")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1192965354]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("PrismMesh_yymxo")
 skeleton = NodePath("")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=435396492]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.096052, -0.0432466, 0)
 mesh = SubResource("SphereMesh_x54xf")
 
-[node name="Components" type="Node" parent="."]
+[node name="Components" type="Node" parent="." unique_id=1355332539]
 
-[node name="PlayerInput" type="Node" parent="Components"]
+[node name="PlayerInput" type="Node" parent="Components" unique_id=523253887]
 script = ExtResource("3_twv4y")
 metadata/_custom_type_script = "uid://disy7vfpou6kx"
 
-[node name="RigidBodyMovement" type="Node" parent="Components" node_paths=PackedStringArray("input", "mesh", "target")]
-script = ExtResource("1_strm8")
-input = NodePath("../PlayerInput")
-speed = 1.0
-mesh = NodePath("../../MeshInstance3D")
+[node name="RotateToVelocity" type="Node" parent="Components" unique_id=1511156855 node_paths=PackedStringArray("target")]
+script = ExtResource("3_vghrk")
 target = NodePath("../..")
-metadata/_custom_type_script = "uid://bu1r20ywascsv"
+metadata/_custom_type_script = "uid://q3q2nmv7strx"
 
-[node name="GimbalCamera" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("5_8h1a1")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-player_input = NodePath("../Components/PlayerInput")
-rotation_speed_y = 0.02
-rotation_speed_x = 0.028
-gimbal_max_x = -35.0
-gimbal_min_x = -20.0
-
-[node name="Interactor" type="Area3D" parent="." node_paths=PackedStringArray("player_input")]
+[node name="Interactor" type="Area3D" parent="." unique_id=1258362062 node_paths=PackedStringArray("player_input")]
 script = ExtResource("4_twv4y")
 player_input = NodePath("../Components/PlayerInput")
 metadata/_custom_type_script = "uid://cotfsu52ght42"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor" unique_id=1287781728]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.125, 0)
 shape = SubResource("CylinderShape3D_6pr0x")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=631791010]
 layers = 524288
 pixel_size = 0.0005
 billboard = 1
@@ -86,10 +76,25 @@ no_depth_test = true
 fixed_size = true
 texture = ExtResource("7_vghrk")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1257442853 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_51qsa")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("body")]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=993901243 node_paths=PackedStringArray("body", "input")]
 script = ExtResource("8_vghrk")
 body = NodePath("../..")
+input = NodePath("../../Components/PlayerInput")
+
+[node name="Walking" type="Node" parent="StateMachine" unique_id=401494154 node_paths=PackedStringArray("body", "input", "rotator")]
+script = ExtResource("9_vghrk")
+body = NodePath("../..")
+input = NodePath("../../Components/PlayerInput")
+rotator = NodePath("../../Components/RotateToVelocity")
+metadata/_custom_type_script = "uid://cvpyonm16wyst"
+
+[node name="Falling" type="Node" parent="StateMachine" unique_id=868240921 node_paths=PackedStringArray("body", "input", "rotator")]
+script = ExtResource("10_1kggj")
+body = NodePath("../..")
+input = NodePath("../../Components/PlayerInput")
+rotator = NodePath("../../Components/RotateToVelocity")
+metadata/_custom_type_script = "uid://01ga8bbfkunt"
