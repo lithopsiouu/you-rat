@@ -1,6 +1,6 @@
-extends Node3D
+class_name GimbalCamera extends Node3D
 
-@export var target: CharacterBody3D
+@export var target: Node3D
 var player_input: PlayerInput
 
 @export_category("Settings")
@@ -26,6 +26,9 @@ func _process(delta: float) -> void:
 		
 		$InnerGimbal.rotation_degrees.x = clampf($InnerGimbal.rotation_degrees.x, gimbal_max_x, gimbal_min_x)
 
+
+func set_new_target(new_target: Node3D) -> void:
+	target = new_target
 
 func _move_to_target() -> void:
 	if transform_to_target:

@@ -97,7 +97,7 @@ func _activate(state: bool, cooldown: bool = true) -> void:
 		_stop_interaction()
 		return
 	
-	interaction_completed.emit()
+	interaction_completed.emit(get_overlapping_areas().get(0))
 	
 	last_activated = activated
 	

@@ -4,6 +4,7 @@
 [ext_resource type="Material" uid="uid://lln0i7y28edo" path="res://Assets/Materials/tile_dark_gray.tres" id="2_x54xf"]
 [ext_resource type="PackedScene" uid="uid://bpqpjy8fcgewn" path="res://Assets/Entities/rigidbody_player.tscn" id="7_njocx"]
 [ext_resource type="PackedScene" uid="uid://cyg20dvv5m0qi" path="res://Assets/Entities/gimbal_camera.tscn" id="7_of0ke"]
+[ext_resource type="PackedScene" uid="uid://dby4dt05yeckx" path="res://Assets/Entities/rolling_tube.tscn" id="8_njocx"]
 [ext_resource type="Material" uid="uid://brx2jluqhii8i" path="res://Assets/Materials/interaction.tres" id="9_t768u"]
 [ext_resource type="Script" uid="uid://ddxbnuhq2je6l" path="res://Scripts/Interaction/interactable.gd" id="10_chm6s"]
 [ext_resource type="Texture2D" uid="uid://bcsf3aibkd3qp" path="res://Assets/Materials/Textures/Dev/Editor Icon/trimolt__0007_interaction-copy-2.png" id="11_chm6s"]
@@ -62,7 +63,7 @@ material = ExtResource("1_ggcjv")
 [node name="CSGBox3D5" type="CSGBox3D" parent="." unique_id=1192686818]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85, 2.1, -2.5)
 use_collision = true
-collision_layer = 4
+collision_layer = 6
 collision_mask = 17
 size = Vector3(0.2, 4, 3)
 material = ExtResource("1_ggcjv")
@@ -147,10 +148,10 @@ fixed_size = true
 texture = ExtResource("11_chm6s")
 
 [node name="RigidBody3D" parent="." unique_id=723126475 instance=ExtResource("7_njocx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, 0.739244, -0.945048)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, -1.1920929e-07, -0.945048)
 
-[node name="GimbalCamera2" parent="RigidBody3D" unique_id=681192686 node_paths=PackedStringArray("target") instance=ExtResource("7_of0ke")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, 0.739244, -0.945048)
+[node name="GimbalCamera" parent="RigidBody3D" unique_id=681192686 node_paths=PackedStringArray("target") instance=ExtResource("7_of0ke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367, 0, -0.945)
 top_level = true
 target = NodePath("..")
 rotation_speed_y = 0.03
@@ -160,7 +161,10 @@ gimbal_min_x = -20.0
 
 [node name="ClimbArea" type="Area3D" parent="." unique_id=1955000311]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6000001, 2.1000001, -3.5)
-collision_layer = 0
+collision_layer = 1024
+collision_mask = 0
+gravity_point_center = Vector3(-1, 0, 0)
+gravity_direction = Vector3(-1, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ClimbArea" unique_id=1012446527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89999986, 0)
@@ -169,9 +173,15 @@ debug_color = Color(1.353256, 0.90830946, 0, 0.78431374)
 
 [node name="ClimbArea2" type="Area3D" parent="." unique_id=1774568551]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6000001, 3.1000001, -3.5)
-collision_layer = 0
+collision_layer = 1024
+collision_mask = 0
+gravity_point_center = Vector3(-1, 0, 0)
+gravity_direction = Vector3(-1, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ClimbArea2" unique_id=536479988]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.049999714, 1)
 shape = SubResource("BoxShape3D_of0ke")
 debug_color = Color(1.353256, 0.90830946, 0, 0.78431374)
+
+[node name="RollingTube" parent="." unique_id=537028745 instance=ExtResource("8_njocx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9909639, 0.2227157, 0.53783476)

@@ -104,6 +104,7 @@ jump={
 3d_physics/layer_6="NPC"
 3d_physics/layer_9="Interactable"
 3d_physics/layer_10="Interactor"
+3d_physics/layer_11="Climbable"
 3d_physics/layer_13="Hitbox"
 3d_physics/layer_14="Hurtbox"
 

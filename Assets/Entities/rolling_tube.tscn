@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dby4dt05yeckx"]
+
+[ext_resource type="Script" uid="uid://siwcoymsd0o0" path="res://Scripts/Interaction/rolling_tube.gd" id="1_2ycoj"]
+[ext_resource type="Material" uid="uid://bgypqh65uj1mf" path="res://Assets/Materials/puzzle_material.tres" id="1_qscvo"]
+[ext_resource type="Script" uid="uid://ddxbnuhq2je6l" path="res://Scripts/Interaction/interactable.gd" id="2_hxu50"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_q54yq"]
+height = 3.0
+radius = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_q54yq"]
+lightmap_size_hint = Vector2i(7, 10)
+material = ExtResource("1_qscvo")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 3.0
+radial_segments = 32
+rings = 3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q54yq"]
+radius = 0.15
+
+[node name="RollingTube" type="RigidBody3D" unique_id=1858389497 node_paths=PackedStringArray("entrance", "exit")]
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = ExtResource("1_2ycoj")
+entrance = NodePath("TubeStart")
+exit = NodePath("TubeEnd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1161846988]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_q54yq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1288221419]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_q54yq")
+skeleton = NodePath("")
+
+[node name="TubeStart" type="Area3D" parent="." unique_id=1358692387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+script = ExtResource("2_hxu50")
+one_time = true
+interact_time = 0.5
+cooldown_time = 0.2
+metadata/_custom_type_script = "uid://ddxbnuhq2je6l"
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="TubeStart" unique_id=1918603880]
+shape = SubResource("SphereShape3D_q54yq")
+
+[node name="TubeEnd" type="Area3D" parent="." unique_id=1393916396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+script = ExtResource("2_hxu50")
+one_time = true
+interact_time = 0.5
+cooldown_time = 0.2
+metadata/_custom_type_script = "uid://ddxbnuhq2je6l"
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="TubeEnd" unique_id=2136340828]
+shape = SubResource("SphereShape3D_q54yq")
