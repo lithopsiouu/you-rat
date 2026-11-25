@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyg20dvv5m0qi"]
+[gd_scene format=3 uid="uid://cyg20dvv5m0qi"]
 
 [ext_resource type="Script" uid="uid://ct3vj3jyd6a5s" path="res://Scripts/gimbal_camera.gd" id="1_gf4iu"]
 
@@ -11,13 +11,20 @@ dof_blur_near_distance = 3.0
 dof_blur_near_transition = 4.0
 dof_blur_amount = 0.2
 
-[node name="GimbalCamera" type="Node3D"]
+[node name="GimbalCamera" type="Node3D" unique_id=1012563918]
+process_mode = 3
+physics_interpolation_mode = 1
 script = ExtResource("1_gf4iu")
+use_start_orientation = true
+speed_y = 0.9
+speed_x = 1.3
 
-[node name="InnerGimbal" type="Node3D" parent="."]
+[node name="InnerGimbal" type="Node3D" parent="." unique_id=1711236955]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="InnerGimbal"]
+[node name="Camera3D" type="Camera3D" parent="InnerGimbal" unique_id=1717245231]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.8)
 cull_mask = 524287
 attributes = SubResource("CameraAttributesPractical_gf4iu")

@@ -29,6 +29,7 @@ func physics_update(_delta: float) -> void:
 	var move_dir = input.move_dir
 	
 	if body.is_on_floor():
+		Input.start_joy_vibration(0, 0.3, 0.3, 0.1)
 		
 		if _get_is_moving(move_dir):
 			state_machine.change_state("Walking")

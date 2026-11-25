@@ -3,6 +3,7 @@ class_name StateMachine extends Node
 ## Class for a [StateMachine].
 
 @export var initial_state: State
+@export var print_state_change: bool = false ## Whether or not the [b]Output[/b] displays the name of the new [State].
 
 var current_state: State ## Current state the [StateMachine] is in.
 var last_state: State ## Last state the [StateMachine] was in.
@@ -39,4 +40,4 @@ func change_state(new_state_name: String) -> void:
 	new_state.enter()
 	
 	current_state = new_state
-	print(str(new_state_name))
+	if print_state_change: print(str(new_state_name))

@@ -154,8 +154,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, -1.1920929e-07, -0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367, 0, -0.945)
 top_level = true
 target = NodePath("..")
-rotation_speed_y = 0.03
-rotation_speed_x = 0.035
 gimbal_max_x = -35.0
 gimbal_min_x = -20.0
 

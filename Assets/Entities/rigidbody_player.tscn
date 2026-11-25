@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://4au3baac81ma" path="res://Scripts/Interaction/StateMachine/Character/walking.gd" id="9_vghrk"]
 [ext_resource type="Script" uid="uid://01ga8bbfkunt" path="res://Scripts/Interaction/StateMachine/Character/falling.gd" id="10_1kggj"]
 [ext_resource type="Script" uid="uid://cggutx8t7paof" path="res://Scripts/Interaction/StateMachine/Character/jumping.gd" id="10_y5fkf"]
+[ext_resource type="Script" uid="uid://ddahjqj87whn7" path="res://Scripts/Interaction/StateMachine/Character/blocked.gd" id="12_xmvst"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_b2tom"]
 radius = 0.05
@@ -116,3 +117,9 @@ body = NodePath("../..")
 input = NodePath("../../Components/PlayerInput")
 rotator = NodePath("../../Components/RotateToVelocity")
 metadata/_custom_type_script = "uid://cggutx8t7paof"
+
+[node name="Blocked" type="Node" parent="StateMachine" unique_id=258050266 node_paths=PackedStringArray("body", "input")]
+script = ExtResource("12_xmvst")
+body = NodePath("../..")
+input = NodePath("../../Components/PlayerInput")
+metadata/_custom_type_script = "uid://ddahjqj87whn7"
