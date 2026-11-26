@@ -13,6 +13,8 @@ var jumping_pressed: bool = false
 @export var invert_cam_y: bool = false
 var _cam: Camera3D
 
+# @todo turn playerinput into autoload
+
 func _ready() -> void:
 	_cam = get_viewport().get_camera_3d()
 

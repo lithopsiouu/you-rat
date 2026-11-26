@@ -10,6 +10,7 @@ var player_input: PlayerInput
 @export_category("Settings")
 @export var transform_to_target: bool = true
 @export var zoom_strength: float = 0.1
+
 @export_group("Use Start Orientation")
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var use_start_orientation: bool = false
 @export_custom(PROPERTY_HINT_NONE, "suffix:°") var start_x_rotation: float = -30.0
@@ -22,10 +23,12 @@ var player_input: PlayerInput
 @export_group("Limits")
 
 @export_subgroup("Rotation")
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var use_rotation_limits: bool = true
 @export var gimbal_min_x: float = -15.0 ## Minimum x (lowest tilt) rotation. 
 @export var gimbal_max_x: float = -40.0 ## Maximum x (lowest tilt) rotation. 
 
 @export_subgroup("Zoom")
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var use_zoom_limits: bool = true
 @export var zoom_min: float = 2.0
 @export var zoom_max: float = 3.2
 
@@ -44,15 +47,21 @@ func _process(delta: float) -> void:
 	_move_to_target()
 	
 	if abs(player_input.rotate_cam.length()) > 0:
-		rotation.y = move_toward(rotation.y, rotation.y + player_input.rotate_cam.x, delta * speed_x)
-		gim.rotation.x = move_toward(gim.rotation.x, gim.rotation.x + player_input.rotate_cam.y, delta * speed_y)
-		
-		gim.rotation_degrees.x = clampf(gim.rotation_degrees.x, gimbal_max_x, gimbal_min_x)
+		_gim_rotation(delta)
 	
 	if Input.is_action_just_pressed("zoom_cam_in"):
 		mod_zoom(zoom_strength)
 	elif Input.is_action_just_pressed("zoom_cam_out"):
 		mod_zoom(-zoom_strength)
+
+
+## Rotate [member GimbalCamera.gim] and limit x rotation if [param use_rotation_limits] is [code]true[/code].
+func _gim_rotation(_delta: float) -> void:
+	rotation.y = move_toward(rotation.y, rotation.y + player_input.rotate_cam.x, _delta * speed_x)
+	gim.rotation.x = move_toward(gim.rotation.x, gim.rotation.x + player_input.rotate_cam.y, _delta * speed_y)
+	
+	if use_rotation_limits:
+		gim.rotation_degrees.x = clampf(gim.rotation_degrees.x, gimbal_max_x, gimbal_min_x)
 
 
 ## Sets [param target] to [param new_target].
@@ -78,6 +87,7 @@ func set_zoom_extents(extent_name: String) -> void:
 	else:
 		printerr("Extent '", extent_name, "' does not exist!")
 
+
 ## [b]Set[/b] [member Node3D.transform.z] (distance) of [member GimbalCamera.cam] with a [b]value[/b] between [code]0[/code] and [code]1[/code] (min and max zoom).
 func set_zoom(value: float) -> void:
 	value = clampf(value, 0, 1)
@@ -87,4 +97,7 @@ func set_zoom(value: float) -> void:
 
 ## [b]Increase[/b] or [b]decrease[/b] [member Node3D.transform.z] (distance) of [param cam] clamped between [param zoom_min] and [param zoom_max].
 func mod_zoom(value: float) -> void:
-	cam.position.z = clamp(cam.position.z + value, zoom_min, zoom_max)
+	cam.position.z += value
+	
+	if use_zoom_limits:
+		cam.position.z = clamp(cam.position.z, zoom_min, zoom_max)

@@ -30,13 +30,16 @@ height = 0.25
 radius = 0.4
 
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=393314524 groups=["Player"]]
+process_mode = 3
 collision_layer = 16
-collision_mask = 3
+collision_mask = 39
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+wall_min_slide_angle = 0.7853982
 floor_stop_on_slope = false
 floor_constant_speed = true
+floor_block_on_wall = false
 platform_floor_layers = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=398310535]
@@ -109,6 +112,7 @@ body = NodePath("../..")
 input = NodePath("../../Components/PlayerInput")
 rotator = NodePath("../../Components/RotateToVelocity")
 coyote = NodePath("../../Components/CoyoteTime")
+move_influence = 0.9
 metadata/_custom_type_script = "uid://01ga8bbfkunt"
 
 [node name="Jumping" type="Node" parent="StateMachine" unique_id=1236269333 node_paths=PackedStringArray("body", "input", "rotator")]

@@ -9,7 +9,7 @@ class_name Jumping extends State
 
 @export_subgroup("Jumping Settings")
 @export var jump_strength: float = 3.0 ## Strength with which the body jumps.
-@export var move_influence: float = 1.2 ## Speed at which the player moves in the air.
+@export var move_influence: float = 1.1 ## Speed at which the player moves in the air.
 @export var jump_decay: float = 11 ## Speed at which the jump decays at.
 
 var _ignore_floor_time: float = 0.1 ## Time to ignore [method CharacterBody3D.is_on_floor] for.

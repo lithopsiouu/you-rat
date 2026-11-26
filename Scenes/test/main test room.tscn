@@ -105,7 +105,7 @@ material = ExtResource("2_x54xf")
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 2, -2.25, 0.626, -2)
 use_collision = true
 collision_layer = 2
-collision_mask = 17
+collision_mask = 49
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1017040681]
 material = ExtResource("2_x54xf")
@@ -114,7 +114,7 @@ material = ExtResource("2_x54xf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
 operation = 2
 radius = 1.0
-sides = 20
+sides = 35
 material = ExtResource("1_ggcjv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=868080741]
@@ -154,8 +154,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367278, -1.1920929e-07, -0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367, 0, -0.945)
 top_level = true
 target = NodePath("..")
-gimbal_max_x = -35.0
 gimbal_min_x = -20.0
+gimbal_max_x = -35.0
 
 [node name="ClimbArea" type="Area3D" parent="." unique_id=1955000311]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6000001, 2.1000001, -3.5)
